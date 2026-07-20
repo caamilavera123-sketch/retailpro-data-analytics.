@@ -1,44 +1,9 @@
-/*
-============================================================
-PROYECTO FINAL - DATA ANALYTICS
-Checkpoint: Script SQL de Ingeniería de Datos
-Base de datos: Ventas_Tech_DB
-Motor: PostgreSQL
-Archivo: ventas_tech_db.sql
-============================================================
-
-IMPORTANTE:
-1. En PostgreSQL, CREATE DATABASE debe ejecutarse fuera de una transacción.
-2. Ejecutar primero:
-       CREATE DATABASE ventas_tech_db;
-3. Luego conectarse a ventas_tech_db y ejecutar el resto del script.
-*/
-
--- =========================================================
--- 1. CREACIÓN DE LA BASE DE DATOS
--- =========================================================
-
--- Ejecutar esta sentencia una sola vez desde la base postgres:
--- CREATE DATABASE ventas_tech_db;
-
--- Luego conectarse a la base ventas_tech_db antes de continuar.
-
-
--- =========================================================
--- 2. DROP TABLES
--- Se eliminan primero las tablas dependientes.
--- =========================================================
+CREATE DATABASE ventas_tech_db;
 
 DROP TABLE IF EXISTS ventas;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS categorias;
-
-
--- =========================================================
--- 3. CREATE TABLES - DDL
--- Primero se crean las tablas sin dependencias.
--- =========================================================
 
 CREATE TABLE categorias (
     id_categoria INTEGER PRIMARY KEY,
@@ -80,12 +45,6 @@ CREATE TABLE ventas (
         FOREIGN KEY (id_producto)
         REFERENCES productos(id_producto)
 );
-
-
--- =========================================================
--- 4. INSERT DATA - DML
--- Se cargan primero las tablas independientes.
--- =========================================================
 
 -- Categorías
 INSERT INTO categorias
@@ -132,21 +91,11 @@ VALUES
     (9,  4, 4, 1,  120.00, DATE '2024-03-14'),
     (10, 5, 3, 2,  450.00, DATE '2024-03-15');
 
-
--- =========================================================
--- 5. CONSULTAS DE VALIDACIÓN
--- =========================================================
-
 SELECT * FROM categorias ORDER BY id_categoria;
 SELECT * FROM clientes ORDER BY id_cliente;
 SELECT * FROM productos ORDER BY id_producto;
 SELECT * FROM ventas ORDER BY id_venta;
 
--- Conteo esperado:
--- categorias = 4
--- clientes   = 5
--- productos  = 6
--- ventas     = 10
 
 SELECT 'categorias' AS tabla, COUNT(*) AS cantidad FROM categorias
 UNION ALL
@@ -156,11 +105,6 @@ SELECT 'productos', COUNT(*) FROM productos
 UNION ALL
 SELECT 'ventas', COUNT(*) FROM ventas;
 
-
--- =========================================================
--- 6. CONSULTA EXTRA DE CONTROL
--- Verifica las relaciones entre ventas, clientes y productos.
--- =========================================================
 
 SELECT
     v.id_venta,
